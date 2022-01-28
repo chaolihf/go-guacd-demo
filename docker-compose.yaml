@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  guacd:
+    image: guacamole/guacd
+    container_name: guacd
+    ports:
+      - "4822:4822"
+
+  ssh-server:
+    build:
+      dockerfile: docker/Dockerfile.ssh-server
+    container_name: ssh-server
+    hostname: ssh-server
+
+#  remote-terminal:
+#    build: ./
+#    ports:
+#      - "9528:9528"

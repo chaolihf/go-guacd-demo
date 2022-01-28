@@ -1,0 +1,4 @@
+FROM ir0cn/ubuntu
+
+RUN set -x && \
+    echo root:linuxserver | chpasswd
