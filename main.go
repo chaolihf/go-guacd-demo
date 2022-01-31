@@ -36,8 +36,8 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 
 	switch parameters["hostname"][:3] { // TODO: 先使用前3个字母判断下协议
 	case "rdp":
-		parameters["username"] = "rdpserver"
-		parameters["password"] = "rdpserver"
+		parameters["username"] = "ubuntu"
+		parameters["password"] = "ubuntu"
 
 	case "ssh":
 		parameters["username"] = "root"

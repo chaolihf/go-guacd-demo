@@ -9,9 +9,16 @@ services:
 
   ssh-server:
     build:
+      context: ./
       dockerfile: docker/Dockerfile.ssh-server
     container_name: ssh-server
     hostname: ssh-server
+
+# ubuntu:ubuntu
+  rdp-server:
+    image: scottyhardy/docker-remote-desktop
+    container_name: rdp-server
+    hostname: rdp-server
 
 #  remote-terminal:
 #    build: ./
