@@ -38,6 +38,8 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	case "rdp":
 		parameters["username"] = "ubuntu"
 		parameters["password"] = "ubuntu"
+		parameters["ignore-cert"] = "true"
+		parameters["security"] = "any"
 
 	case "ssh":
 		parameters["username"] = "root"
@@ -54,6 +56,9 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	}
 
 	// TODO: record
+	//parameters["recording-file"]
+	//parameters["recording-path"]
+	//parameters["recording-name"]
 	return parameters["hostname"][:3], parameters
 }
 
