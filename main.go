@@ -34,12 +34,13 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 		parameters["drive-path"] = "/export/FileTransfer/"
 	}
 
-	switch parameters["hostname"][:3] { // TODO: 先使用前3个字母判断下协议
+	parameters["scheme"] = parameters["hostname"][:3] // TODO: 先使用前3个字母判断下协议
+	switch parameters["scheme"] {
 	case "rdp":
 		parameters["username"] = "ubuntu"
 		parameters["password"] = "ubuntu"
 		parameters["ignore-cert"] = "true"
-		parameters["security"] = "any"
+		parameters["security"] = ""
 
 	case "ssh":
 		parameters["username"] = "root"
@@ -59,6 +60,8 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	//parameters["recording-file"]
 	//parameters["recording-path"]
 	//parameters["recording-name"]
+
+	fmt.Println("parameterrs:", parameters)
 	return parameters["hostname"][:3], parameters
 }
 
@@ -99,6 +102,8 @@ loop:
 			} else if _, err := guacdTunnel.WriteAndFlush(msg); err != nil {
 				done <- errors.New("disconnected")
 				break loop
+			} else {
+				fmt.Println("msg ws->guacd:", string(msg))
 			}
 		}
 	}
@@ -116,9 +121,13 @@ loop:
 			if data, err := tunnel.Read(); err != nil {
 				done <- errors.New("disconnected")
 				break loop
+			} else if len(data) == 0 {
+				// do nothing
 			} else if err := ws.WriteMessage(websocket.TextMessage, data); err != nil {
 				done <- errors.New("disconnected")
 				break loop
+			} else {
+				fmt.Println("msg guacd->ws: ", len(data), "==", string(data))
 			}
 		}
 	}
