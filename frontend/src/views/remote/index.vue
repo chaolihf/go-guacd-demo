@@ -49,6 +49,10 @@ export default {
   methods: {
     doConnect() {
       const viewport = this.$refs.viewport
+      if (!viewport || !viewport.offsetWidth) {
+        return        // resize is being called on the hidden window
+      }
+
       this.query.width = viewport.clientWidth * (window.devicePixelRatio || 1)
       this.query.height = viewport.clientHeight * (window.devicePixelRatio || 1)
 
@@ -93,6 +97,7 @@ export default {
     doDisconnect() {
       if (this.client) {
         this.client.getDisplay().scale(0)
+        this.client.disconnect()
       }
       if (this.mouse) {
         this.mouse.onmousedown = this.mouse.onmouseup = this.mouse.onmousemove = null

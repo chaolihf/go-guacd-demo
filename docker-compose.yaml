@@ -15,18 +15,18 @@ services:
     hostname: ssh-server
 
 # ubuntu:ubuntu
-#  rdp-server:
-#    image: scottyhardy/docker-remote-desktop
-#    container_name: rdp-server
-#    hostname: rdp-server
-
   rdp-server:
-    image: umis/xubuntu-office-xrdp-desktop:v1.0
+    image: scottyhardy/docker-remote-desktop
     container_name: rdp-server
-    environment:
-      - "USERNAME:root"
-      - "PASSWORD:Docker"
     hostname: rdp-server
+
+#  rdp-server:
+#    image: umis/xubuntu-office-xrdp-desktop:v1.0
+#    container_name: rdp-server
+#    environment:
+#      - "USERNAME:root"
+#      - "PASSWORD:Docker"
+#    hostname: rdp-server
 
 #  remote-terminal:
 #    build: ./
