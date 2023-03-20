@@ -8,11 +8,11 @@ services:
       - "4822:4822"
 
   ssh-server:
-    build:
-      context: ./
-      dockerfile: docker/Dockerfile.ssh-server
+    image: ir0cn/ubuntu
     container_name: ssh-server
     hostname: ssh-server
+    environment:
+      SSH_PASSWORD: linuxserver
 
 # ubuntu:ubuntu
   rdp-server:
