@@ -69,9 +69,13 @@ export default {
       tunnel.onstatechange = state => {
         switch (state) {
           case Guacamole.Tunnel.State.OPEN:
-            // setTimeout(() => {
-            //   this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
-            // }, 1000)
+            setTimeout(() => {
+              this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
+              this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
+
+              this.$refs.viewport.getElementsByTagName('canvas')[0]
+                  .setAttribute('style', 'z-index: 999999;');
+            }, 1000)
             break
           case Guacamole.Tunnel.State.CONNECTING:
             break
@@ -89,8 +93,6 @@ export default {
       this.client.onerror = error => {
         this.$alert(error)
       }
-
-      this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
 
       // mouse
       this.mouse = new Guacamole.Mouse(this.client.getDisplay().getElement())
@@ -172,9 +174,8 @@ export default {
 .viewport {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  cursor: none;
 }
 
-canvas {
-  overflow: hidden;
-}
 </style>
