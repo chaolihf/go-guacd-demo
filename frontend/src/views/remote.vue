@@ -111,6 +111,9 @@ export default {
       }
       this.client.connect(this.serialize(this.query))
       this.connected = true
+
+      window.addEventListener('resize', this.resize)
+
     },
     doDisconnect() {
       if (this.client) {
@@ -147,6 +150,12 @@ export default {
         case 'ssh-server':
           this.query.port = 22
           break
+      }
+    },
+    resize() {
+      if (this.connected) {
+        const viewport = this.$refs.viewport
+        this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
       }
     }
   }
