@@ -1,20 +1,23 @@
 <template>
   <el-container>
     <el-main>
-      <div ref="viewport" class="viewport"/>
+      <div id='viewport' ref="viewport" class="viewport"/>
     </el-main>
     <el-aside>
       <h2 style="text-align: center; margin-top: 20rem; font-size: 18px">远程桌面（RDP/VNC/SSH）</h2>
-      <el-form label-position="center" style="margin: 2rem 1rem 1rem 0rem" label-width="80px">
+      <el-form label-position="center" style="margin: 2rem 1rem 1rem 0" label-width="80px">
         <el-form-item label="资产">
-          <el-select v-model="query.remote" placeholder="请选择要连接的资产" @change="doSelectChange" :disabled="connected">
+          <el-select v-model="query.remote" placeholder="请选择要连接的资产" @change="doSelectChange"
+                     :disabled="connected">
             <el-option label="RDP" value="rdp-server"/>
             <el-option label="VNC" value="vnc-server"/>
             <el-option label="SSH" value="ssh-server"/>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:45%" @submit="doConnect" @click="doConnect" :disabled="connected">连接</el-button>
+          <el-button type="primary" style="width:45%" @submit="doConnect" @click="doConnect" :disabled="connected">
+            连接
+          </el-button>
           <el-button style="width: 45%" @click="doDisconnect" :disabled="!connected">断开</el-button>
         </el-form-item>
       </el-form>
@@ -23,7 +26,7 @@
 </template>
 
 <script>
-import Guacamole from 'guacamole-common-js'
+import Guacamole from 'guacamole-client'
 
 export default {
   name: "remote-terminal",
@@ -53,18 +56,22 @@ export default {
         return        // resize is being called on the hidden window
       }
 
-      this.query.width = viewport.clientWidth * (window.devicePixelRatio || 1)
-      this.query.height = viewport.clientHeight * (window.devicePixelRatio || 1)
+      // console.log(viewport.clientWidth)
+      this.query.width = viewport.clientWidth
+      this.query.height = viewport.clientHeight
+      console.log('viewport:', viewport.clientWidth, 'x', viewport.clientHeight)
 
       let tunnel = new Guacamole.WebSocketTunnel(this.wsUrl)
 
-      tunnel.onerror = error => { this.$alert(`tunnel failed: ${JSON.stringify(error)}` )}
+      tunnel.onerror = error => {
+        this.$alert(`tunnel failed: ${JSON.stringify(error)}`)
+      }
       tunnel.onstatechange = state => {
         switch (state) {
           case Guacamole.Tunnel.State.OPEN:
-            setTimeout(()=>{
-              this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
-            },1000)
+            // setTimeout(() => {
+            //   this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
+            // }, 1000)
             break
           case Guacamole.Tunnel.State.CONNECTING:
             break
@@ -79,18 +86,27 @@ export default {
         this.doDisconnect()
       }
       this.client = new Guacamole.Client(tunnel)
-      this.client.onerror = error => { this.$alert(error) }
+      this.client.onerror = error => {
+        this.$alert(error)
+      }
+
+      this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
+
       // mouse
       this.mouse = new Guacamole.Mouse(this.client.getDisplay().getElement())
       this.mouse.onmousedown = this.mouse.onmouseup = this.mouse.onmousemove = (mouseState) => {
         this.client.sendMouseState(mouseState)
       }
       // keyboard
-      if (!this.keyboard){
+      if (!this.keyboard) {
         this.keyboard = new Guacamole.Keyboard(document)
       }
-      this.keyboard.onkeydown = (keysym) => { this.client.sendKeyEvent(1, keysym) }
-      this.keyboard.onkeyup = (keysym) => { this.client.sendKeyEvent(0, keysym) }
+      this.keyboard.onkeydown = (keysym) => {
+        this.client.sendKeyEvent(1, keysym)
+      }
+      this.keyboard.onkeyup = (keysym) => {
+        this.client.sendKeyEvent(0, keysym)
+      }
       this.client.connect(this.serialize(this.query))
       this.connected = true
     },
@@ -113,7 +129,7 @@ export default {
       let str = []
       for (const p in query) {
         if (query[p]) {
-          str.push(encodeURIComponent(p)+'='+encodeURIComponent(query[p]))
+          str.push(encodeURIComponent(p) + '=' + encodeURIComponent(query[p]))
         }
       }
       return str.join('&')
@@ -142,6 +158,9 @@ export default {
 
 .el-main {
   background-color: indianred;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .el-aside {
@@ -153,5 +172,9 @@ export default {
 .viewport {
   width: 100%;
   height: 100%;
+}
+
+canvas {
+  overflow: hidden;
 }
 </style>

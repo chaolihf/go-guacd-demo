@@ -25,8 +25,8 @@ export default {
 }
 
 html,body,#app {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   height: 100%;
 }
 </style>

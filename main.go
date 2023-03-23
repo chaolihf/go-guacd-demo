@@ -51,7 +51,7 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 			parameters["passphrase"] = "----"
 		}
 		parameters["font-name"] = "Courier New"
-		parameters["font-size"] = "12"
+		parameters["font-size"] = "6"
 		parameters["color-scheme"] = "gray-black"
 	case "vnc":
 	}
