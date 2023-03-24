@@ -72,8 +72,6 @@ export default {
             console.log("switch to state_open")
             setTimeout(() => {
               this.resize()
-              // this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
-
 
               const element = this.client.getDisplay().getElement();
               this.$refs.viewport.appendChild(element)
@@ -83,6 +81,9 @@ export default {
               for (let c of canvas) {
                 c.setAttribute('style', 'z-index: 99999;');
               }
+
+              // FIXME: disable cursor
+              this.$refs.viewport.setAttribute('style', 'cursor: none;')
             }, 1000)
             break
           case Guacamole.Tunnel.State.CONNECTING:
@@ -90,6 +91,10 @@ export default {
             break
           case Guacamole.Tunnel.State.CLOSED:
             console.log('switch to state_closed')
+
+            // FIXME: restore cursor
+            this.$refs.viewport.setAttribute('style', 'cursor: default;')
+
             break
           case Guacamole.Tunnel.State.UNSTABLE:
             console.log('switch to state_unstable')
@@ -203,7 +208,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  cursor: none;
+  /*cursor: none;*/
 }
 
 </style>
