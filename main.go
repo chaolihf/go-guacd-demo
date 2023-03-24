@@ -64,7 +64,7 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	//parameters["recording-path"]
 	//parameters["recording-name"]
 
-	fmt.Println("parameterrs:", parameters)
+	fmt.Println("parameters:", parameters)
 	return parameters["scheme"], parameters
 }
 
