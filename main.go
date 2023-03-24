@@ -23,11 +23,12 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	parameters := make(map[string]string)
 	parameters["width"] = ctx.Query("width")
 	parameters["height"] = ctx.Query("height")
-	parameters["dpi"] = "300"
+	parameters["dpi"] = "96"
 	parameters["hostname"] = ctx.Query("remote")
 	parameters["port"] = ctx.Query("port")
 	parameters["resize-method"] = "display-update"
 	parameters["disable-audio"] = "true"
+	parameters[guacd.ColorDepth] = "24"
 
 	// driver
 	if false {
@@ -46,7 +47,6 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 
 	case "ssh":
 		parameters["username"] = "root"
-		parameters["dpi"] = "100"
 		if true { // use password
 			parameters["password"] = "linuxserver"
 		} else { // use privateKey
@@ -54,7 +54,7 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 			parameters["passphrase"] = "----"
 		}
 		parameters[guacd.FontName] = "Courier New"
-		parameters[guacd.FontSize] = "14"
+		parameters[guacd.FontSize] = "12"
 		parameters[guacd.ColorScheme] = "white-black"
 	case "vnc":
 	}
@@ -78,7 +78,7 @@ func apiConnect(ctx *gin.Context) {
 	if err != nil {
 		return
 	}
-	defer ws.Close()
+	defer func() { _ = ws.Close() }()
 	fmt.Println("## #")
 
 	configuration := guacd.NewConfiguration()

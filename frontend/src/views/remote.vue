@@ -69,19 +69,30 @@ export default {
       tunnel.onstatechange = state => {
         switch (state) {
           case Guacamole.Tunnel.State.OPEN:
+            console.log("switch to state_open")
             setTimeout(() => {
-              this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
-              this.$refs.viewport.appendChild(this.client.getDisplay().getElement())
+              this.resize()
+              // this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
 
-              this.$refs.viewport.getElementsByTagName('canvas')[0]
-                  .setAttribute('style', 'z-index: 999999;');
+
+              const element = this.client.getDisplay().getElement();
+              this.$refs.viewport.appendChild(element)
+
+              // FIXME: Set all canvas to the front
+              const canvas = this.$refs.viewport.getElementsByTagName('canvas')
+              for (let c of canvas) {
+                c.setAttribute('style', 'z-index: 99999;');
+              }
             }, 1000)
             break
           case Guacamole.Tunnel.State.CONNECTING:
+            console.log('switch to state_connecting')
             break
           case Guacamole.Tunnel.State.CLOSED:
+            console.log('switch to state_closed')
             break
           case Guacamole.Tunnel.State.UNSTABLE:
+            console.log('switch to state_unstable')
             break
         }
       }
@@ -155,7 +166,15 @@ export default {
     resize() {
       if (this.connected) {
         const viewport = this.$refs.viewport
+        if (!viewport || !viewport.offsetWidth) {
+          console.log('viewport is null')
+          console.log(viewport)
+          return        // resize is being called on the hidden window
+        }
+        // this.client.resize(viewport.clientWidth, viewport.clientHeight)
+
         this.client.sendSize(viewport.clientWidth, viewport.clientHeight)
+        console.log("resize:", viewport.clientWidth, 'x', viewport.clientHeight)
       }
     }
   }
