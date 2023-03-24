@@ -26,6 +26,8 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	parameters["dpi"] = "300"
 	parameters["hostname"] = ctx.Query("remote")
 	parameters["port"] = ctx.Query("port")
+	parameters["resize-method"] = "display-update"
+	parameters["disable-audio"] = "true"
 
 	// driver
 	if false {
@@ -40,10 +42,11 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 		parameters["username"] = "ubuntu"
 		parameters["password"] = "ubuntu"
 		parameters["ignore-cert"] = "true"
-		parameters["security"] = ""
+		parameters["security"] = "any"
 
 	case "ssh":
 		parameters["username"] = "root"
+		parameters["dpi"] = "100"
 		if true { // use password
 			parameters["password"] = "linuxserver"
 		} else { // use privateKey
@@ -51,7 +54,7 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 			parameters["passphrase"] = "----"
 		}
 		parameters[guacd.FontName] = "Courier New"
-		parameters[guacd.FontSize] = "4"
+		parameters[guacd.FontSize] = "14"
 		parameters[guacd.ColorScheme] = "white-black"
 	case "vnc":
 	}
@@ -62,7 +65,7 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 	//parameters["recording-name"]
 
 	fmt.Println("parameterrs:", parameters)
-	return parameters["hostname"][:3], parameters
+	return parameters["scheme"], parameters
 }
 
 func apiConnect(ctx *gin.Context) {

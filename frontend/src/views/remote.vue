@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Guacamole from 'guacamole-client'
+import Guacamole from 'guacamole-common-js'
 
 export default {
   name: "remote-terminal",

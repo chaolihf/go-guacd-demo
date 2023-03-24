@@ -4524,10 +4524,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-guacamole-client@^1.5.0:
+guacamole-common-js@^1.4.0:
   version "1.5.0"
-  resolved "https://registry.npmmirror.com/guacamole-client/-/guacamole-client-1.5.0.tgz#ba5302f1b1a2eda08b4da38f3c3e8aa79c833e71"
-  integrity sha512-wJyb/lmatwxXkVhIERE/utpsHRjlnurPGqn9R3evgE2WGlVlqo7aUO5Wx7iqiOzQBYEAU6iEZhh1XHkzAoasEg==
+  resolved "https://registry.npmmirror.com/guacamole-common-js/-/guacamole-common-js-1.5.0.tgz#50d814c09628b8a65451973d1acc68bc1612558d"
+  integrity sha512-zxztif3GGhKbg1RgOqwmqot8kXgv2HmHFg1EvWwd4q7UfEKvBcYZ0f+7G8HzvU+FUxF0Psqm9Kl5vCbgfrRgJg==
 
 gzip-size@^5.0.0:
   version "5.1.1"
