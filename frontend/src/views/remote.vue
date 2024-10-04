@@ -37,7 +37,7 @@ export default {
       keyboard: null,
       connected: false,
       query: {
-        remote: 'rdp-server',
+        remote: '192.168.1.128',
         width: 1024,
         height: 768,
         port: 3389

@@ -3,10 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net/http"
+
 	"github.com/anhk/guacamole/guacd"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"net/http"
 )
 
 func main() {
@@ -37,11 +38,11 @@ func guacParameters(ctx *gin.Context) (string, map[string]string) {
 		parameters["drive-path"] = "/export/FileTransfer/"
 	}
 
-	parameters["scheme"] = parameters["hostname"][:3] // TODO: 先使用前3个字母判断下协议
+	parameters["scheme"] = "rdp" //parameters["hostname"][:3] // TODO: 先使用前3个字母判断下协议
 	switch parameters["scheme"] {
 	case "rdp":
-		parameters["username"] = "ubuntu"
-		parameters["password"] = "ubuntu"
+		parameters["username"] = "lichao"
+		parameters["password"] = "lc2013!"
 		parameters["ignore-cert"] = "true"
 		parameters["security"] = "any"
 
